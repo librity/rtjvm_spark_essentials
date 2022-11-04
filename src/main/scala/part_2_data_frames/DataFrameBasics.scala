@@ -95,5 +95,5 @@ object DataFrameBasics extends App {
     "Origin")
   manualCarsDataFrame.printSchema()
   manualCarsDataFrameWImplicits.printSchema()
-
+  
 }
