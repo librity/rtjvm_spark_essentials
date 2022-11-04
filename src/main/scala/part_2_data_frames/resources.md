@@ -8,6 +8,7 @@
 ## Scala
 
 - https://stackoverflow.com/questions/47867743/scala-splitting-with-double-quotes-vs-single-quotes
+- https://scala-lang.org/files/archive/spec/2.11/06-expressions.html
 
 ```scala
 // Quotes: String an Chars like in C 
@@ -58,4 +59,7 @@ from public.employees;
 
 SELECT "Title"
 FROM public.movies;
+
+-- Detroy a table 
+DROP TABLE public.movies;
 ```

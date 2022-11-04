@@ -51,28 +51,36 @@ object DataSourcesExercises extends App {
   moviesDF.show()
   println(s"Total Movies: ${moviesDF.count()}")
 
+  println("Saving as CSV")
   moviesDF.write
     .mode(SaveMode.Overwrite)
     .option("header", "true")
     .option("sep", "\t")
     .option("nullValue", "")
-    .csv("src/main/resources/data/movies.tsv")
+    .csv("src/main/resources/data/movies.csv")
 
 
+  println("Saving as Snappy Parquet")
   moviesDF.write
     .mode(SaveMode.Overwrite)
     .save("src/main/resources/data/movies.parquet")
 
 
+  println("Saving as public.movies table in Postgres DB")
+  val postgresConfig = Map(
+    "driver" -> "org.postgresql.Driver",
+    "url" -> "jdbc:postgresql://localhost:5432/rtjvm",
+    "user" -> "docker",
+    "password" -> "docker",
+  )
+
   moviesDF.write
     .mode(SaveMode.Overwrite)
     .format("jdbc")
-    .option("driver", "org.postgresql.Driver")
-    .option("url", "jdbc:postgresql://localhost:5432/rtjvm")
-    .option("user", "docker")
-    .option("password", "docker")
+    .option("driver", postgresConfig("driver"))
+    .option("url", postgresConfig("url"))
+    .option("user", postgresConfig("user"))
+    .option("password", postgresConfig("password"))
     .option("dbtable", "public.movies")
     .save()
-
-
 }

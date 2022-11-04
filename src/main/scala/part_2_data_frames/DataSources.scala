@@ -132,6 +132,7 @@ object DataSources extends App {
     // .parquet("src/main/resources/data/cars.parquet")
     // Parquet is default.
     .save("src/main/resources/data/cars.parquet")
+    // Default compression: snappy
 
 
   //  Load Text Files

@@ -208,4 +208,4 @@ spark-warehouse/
 /src/main/resources/data/cars_dupe.json
 /src/main/resources/data/cars.parquet
 /src/main/resources/data/movies.parquet
-/src/main/resources/data/movies.tsv
+/src/main/resources/data/movies.csv
