@@ -7,10 +7,11 @@ import org.apache.spark.sql.types._
 object DataFrameBasicExercise extends App {
 
   val sparkSession = SparkSession.builder()
-    .appName("Part 2 - Data Frames Basics - Exercise")
+    .appName("Lesson 2.2 - Data Frames Basics Exercise")
     .config("spark.master", "local")
     .getOrCreate()
   val sparkContext = sparkSession.sparkContext
+  sparkContext.setLogLevel("WARN")
 
   /**
    * Exercise 1
@@ -43,7 +44,8 @@ object DataFrameBasicExercise extends App {
     Row("Huawei", "P20 Pro", "Android 8.1", 6.1, 40L, 8L, 4000, "  2018/03/01"),
     Row("Apple", "iPhone 14", "iOS 16", 6.1, 12L, 6L, 3279, "2022/09/07"),
   )
-  //  Data must match schema or it will error out when evaluated!
+  //  Data must match schema or it will error out when evaluated! (lazy)
+  //  Transformation (map(), etc.) are only executed when actions are called (show(), count(), etc.)
 
   val phonesRows = sparkContext.parallelize(phones)
   val phonesDataFrame = sparkSession.createDataFrame(phonesRows, phonesSchema)

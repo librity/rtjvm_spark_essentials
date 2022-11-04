@@ -7,9 +7,11 @@ object DataFrameBasics extends App {
 
   //  Create spark session
   val spark = SparkSession.builder()
-    .appName("Part 2 - Data Frames Basics")
+    .appName("Lesson 2.1 - Data Frames Basics")
     .config("spark.master", "local")
     .getOrCreate()
+  val sparkContext = spark.sparkContext
+  sparkContext.setLogLevel("WARN")
 
   //  Read a data frame
   val carsDataFrame = spark.read
@@ -20,7 +22,7 @@ object DataFrameBasics extends App {
   carsDataFrame.show()
   carsDataFrame.printSchema()
 
-  //  Data Frame: A schema + rows conforming to that structure
+  //  Data Frame: A schema + rows conforming to that structure, distributed over a cluster.
   carsDataFrame.take(10).foreach(println)
 
   //  Spark Types: run-time types implemented as case objects
