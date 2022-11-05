@@ -99,8 +99,9 @@ object Aggregations extends App {
 
 
   /**
-   * Data Aggregations (sum(), avg(), etc.)
-   *   and Groupings (sort(), groupBy(), etc.)
+   * Data Aggregations (sum(), avg(), etc.),
+   *   Groupings (sort(), groupBy(), etc.),
+   *   and Joins
    *   are a Wide Transformations:
    * Distributed data has to be exchanged (shuffled) around the nodes.
    * One of the greatest performance bottlenecks.
