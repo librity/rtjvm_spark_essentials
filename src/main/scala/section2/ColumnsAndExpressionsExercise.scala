@@ -4,7 +4,7 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions.{col, column, expr}
 import org.apache.spark.sql.types._
 
-object ColumnsAndExpressionsExercises extends App {
+object ColumnsAndExpressionsExercise extends App {
   val spark = SparkSession.builder()
     .appName("Lesson 2.7 - Columns And Expressions Exercises")
     .config("spark.master", "local")

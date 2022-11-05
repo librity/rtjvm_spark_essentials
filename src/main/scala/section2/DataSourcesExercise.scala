@@ -3,7 +3,7 @@ package section2
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{SaveMode, SparkSession}
 
-object DataSourcesExercises extends App {
+object DataSourcesExercise extends App {
   val sparkSession = SparkSession.builder()
     .appName("Lesson 2.5 - Data Sources Exercise")
     .config("spark.master", "local")

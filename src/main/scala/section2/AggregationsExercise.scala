@@ -4,7 +4,7 @@ import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
 
-object AggregationsExercises extends App {
+object AggregationsExercise extends App {
   val spark = SparkSession.builder()
     .appName("Lesson 2.8 - Aggregations Exercises")
     .config("spark.master", "local")
