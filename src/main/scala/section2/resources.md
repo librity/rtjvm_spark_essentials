@@ -3,8 +3,20 @@
 ## Spark
 
 - https://stackoverflow.com/questions/31477598/how-to-create-an-empty-dataframe-with-a-specified-schema
-- https://stackoverflow.com/questions/62602720/string-to-date-migration-from-spark-2-0-to-3-0-gives-fail-to-recognize-eee-mmm
 - https://sparkbyexamples.com/spark/spark-how-to-sort-dataframe-column-explained/
+- https://stackoverflow.com/questions/48775083/top-n-items-from-a-spark-dataframe-rdd
+- https://sparkbyexamples.com/spark/spark-dataframe-where-filter/
+- https://stackoverflow.com/questions/45038656/where-clause-in-spark-with-between-for-element-in-array-of-struct
+
+### `Dates`
+
+- https://stackoverflow.com/questions/62602720/string-to-date-migration-from-spark-2-0-to-3-0-gives-fail-to-recognize-eee-mmm
+- https://www.databricks.com/blog/2020/07/22/a-comprehensive-look-at-dates-and-timestamps-in-apache-spark-3-0.html
+- https://stackoverflow.com/questions/37341659/spark-scala-dataframe-finding-max
+- https://stackoverflow.com/questions/38377894/how-to-get-maxdate-from-given-set-of-data-grouped-by-some-fields-using-pyspark
+- https://stackoverflow.com/questions/50069061/how-to-calculate-maxdate-and-mindate-for-datetype-in-pyspark-dataframe
+- https://spark.apache.org/docs/3.3.1/sql-ref-datatypes.html#supported-data-types
+- https://sparkbyexamples.com/spark/spark-sql-how-to-convert-date-to-string-format/
 
 ## Scala
 

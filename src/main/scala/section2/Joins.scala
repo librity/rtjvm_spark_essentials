@@ -153,7 +153,7 @@ object Joins extends App {
 
 
   /**
-   * Joins with Complex Types
+   * Join with Complex Types
    *
    * You can join on an array and other types with expressions:
    */
