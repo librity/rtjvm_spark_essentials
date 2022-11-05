@@ -39,7 +39,7 @@ object Aggregations extends App {
   moviesDF.select(countDistinct("Major_Genre")).show()
 
 
-  // Approximate count (for BIG data frames/sets)
+  // Approximate count (for BIG Data Frames/Sets)
   moviesDF.select(approx_count_distinct(col("Major_Genre"))).show()
 
 
@@ -96,5 +96,17 @@ object Aggregations extends App {
     )
     .orderBy("Avg_Rating")
   aggregationsByGenre.show()
+
+
+  /**
+   * Data Aggregations (sum(), avg(), etc.)
+   *   and Groupings (sort(), groupBy(), etc.)
+   *   are a Wide Transformations:
+   * Distributed data has to be exchanged (shuffled) around the nodes.
+   * One of the greatest performance bottlenecks.
+   * It's usually better to perform Wide Operations at the end
+   * of the processing Pipeline.
+   */
+
 
 }
