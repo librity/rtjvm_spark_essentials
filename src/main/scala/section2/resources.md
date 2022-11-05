@@ -50,9 +50,10 @@ $ ./psql.sh
 ```SQL
 -- Describe the database
 \dt
+
 -- Get table schema
-\
 d+  public.employees
+
 -- Run queries
 SELECT first_name
 from public.employees;
