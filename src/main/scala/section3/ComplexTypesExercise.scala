@@ -10,7 +10,7 @@ object ComplexTypesExercise extends App {
    */
 
   val spark = SparkSession.builder()
-    .appName("Lesson 3.1 - Common Types")
+    .appName("Lesson 3.2 - Complex Types")
     .config("spark.master", "local")
     .getOrCreate()
 
