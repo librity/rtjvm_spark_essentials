@@ -96,10 +96,10 @@ object HandleNulls extends App {
   ))
   //    .show()
 
+  
   /**
    * Complex Expressions
    */
-
 
   moviesDF
     .selectExpr(
@@ -122,20 +122,5 @@ object HandleNulls extends App {
       "nvl2(Rotten_Tomatoes_Rating, IMDB_Rating * 10, 0.0) as nvl2",
     )
     .show()
-
-
-  /**
-   *
-   */
-
-
-  /**
-   *
-   */
-
-
-  /**
-   *
-   */
 
 }
