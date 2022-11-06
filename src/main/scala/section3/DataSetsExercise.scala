@@ -3,6 +3,7 @@ package section3
 import org.apache.spark.sql.{DataFrame, Dataset, Encoder, Encoders, SparkSession}
 import org.apache.spark.sql.functions._
 
+
 import java.sql.Date
 import scala.math.Ordered.orderingToOrdered
 
@@ -24,7 +25,7 @@ object DataSetsExercise extends App {
 
 
   /**
-   * Exercises
+   * Exercise 1
    *
    * 1. Create carsDataSet
    */
@@ -68,7 +69,7 @@ object DataSetsExercise extends App {
     .where(col("Horsepower") > 140)
 
   val powerfulCarsDS = carsDataSet
-    .filter(car => car.Horsepower match {
+    .filter(_.Horsepower match {
       case Some(hp) => hp > 140L
       case None => false
     })
@@ -81,18 +82,75 @@ object DataSetsExercise extends App {
    */
 
 
+  val cleanCarsDS = carsDataSet
+    .filter(_.Horsepower.isDefined)
+
   implicit val longEncoder: Encoder[Long] = Encoders.scalaLong
   implicit val doubleEncoder: Encoder[Double] = Encoders.scalaDouble
-  val averageHPofDS =
-    carsDataSet
-      .map(car => car.Horsepower.getOrElse(0L).toDouble)
-      .reduce(_ + _) / carsDataSet.count().toDouble
+  val averageHPofDS = cleanCarsDS
+    .map(_.Horsepower.getOrElse(0L).toDouble)
+    .reduce(_ + _) / cleanCarsDS.count().toDouble
 
   println(s"Average Horse Power of Cars Data Frame:")
   carsDF
     .agg(avg("Horsepower"))
     .show()
   println(s"Average Horse Power of Cars Data Set: ${averageHPofDS}")
+
+
+  /**
+   * Daniel's Solution
+   *
+   * We can also use the Data Frame functions:
+   * DataFrame  = Dataset[Row]
+   */
+
+  carsDataSet
+    .select(avg("Horsepower"))
+    .show()
+
+
+  /**
+   * Exercise 2
+   */
+
+  case class
+  Guitar(
+          id: Long,
+          model: String,
+          make: String,
+          guitarType: String,
+        )
+
+  implicit val guitarEncoder = Encoders.product[Guitar]
+  val guitars = getJsonDataFrame("guitars").as[Guitar]
+
+  case class
+  Guitarist(
+             id: Long,
+             guitars: Seq[Long],
+             name: String,
+             band: Long,
+           )
+
+  implicit val guitaristEncoder = Encoders.product[Guitarist]
+  val guitarists = getJsonDataFrame("guitarPlayers").as[Guitarist]
+
+
+  /**
+   * 1. Join guitarists with guitars by guitarists.col("guitars")
+   * - use array_contains() and outer join
+   */
+
+  val joinCondition = array_contains(
+    guitarists.col("guitars"),
+    guitars.col("id"))
+  guitarists.joinWith(
+    guitars,
+    joinCondition,
+    "outer",
+  )
+    .show()
 
 
   def getJsonDataFrame(name: String): DataFrame = {

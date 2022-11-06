@@ -113,8 +113,87 @@ object DataSets extends App {
   //  for (car <- carsDataSet) printf("%s, ", car.Origin)
 
 
+  /**
+   * Joins
+   */
+
+  case class
+  Guitar(
+          id: Long,
+          model: String,
+          make: String,
+          guitarType: String,
+        )
+
+  val guitars = getJsonDataFrame("guitars").as[Guitar]
+
+  case class
+  Guitarist(
+             id: Long,
+             guitars: Seq[Long],
+             name: String,
+             band: Long,
+           )
+
+  val guitarists = getJsonDataFrame("guitarPlayers").as[Guitarist]
+
+
+  case class
+  Band(
+        id: Long,
+        name: String,
+        hometown: String,
+        year: Long,
+      )
+
+  val bands = getJsonDataFrame("bands").as[Band]
+
+
+  /**
+   * .join() Returns a Data Frame, looses type information.
+   * .joinWith() Returns a tuple of Data Sets (maintains the objects separate).
+   */
+
+
+  val joinCondition = guitarists.col("band") === bands.col("id")
+  val guitaristBands = guitarists
+    .joinWith(bands,
+      joinCondition,
+      // Same join types as .join()
+      "inner")
+  guitaristBands.show()
+
+
+  /**
+   * Grouping
+   *
+   * .groupByKey()
+   * .reduceGroups()
+   * .mapValues()
+   * .mapGroups()
+   * .agg()
+   * .cogroup()
+   * .flatMapGroups()
+   * .flatMapGroupsWithState()
+   * (...)
+   */
+
+  val groupedCars = carsDataSet
+    .groupByKey(_.Origin)
+    .count()
+  groupedCars.show()
+
+
+  /**
+   * Joins and Groups are Wide Transformations:
+   * - They change the number of partition behind the Data Sets
+   * - Require shuffles, bad for performance
+   */
+
+
   def getJsonDataFrame(name: String): DataFrame = {
     spark.read
+      // inferSchema parses all integers as Long
       .option("inferSchema", "true")
       .json(s"src/main/resources/data/$name.json")
   }

@@ -16,6 +16,7 @@
 - https://alvinalexander.com/scala/best-practice-option-some-none-pattern-scala-idioms/
 - https://stackoverflow.com/questions/22902542/reducing-options-in-scala
 - https://stackoverflow.com/questions/2712390/how-to-combine-option-values-in-scala
+- https://stackoverflow.com/questions/10104558/how-to-filter-nones-out-of-listoption
 
 ## Spark
 
