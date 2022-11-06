@@ -52,8 +52,82 @@ object ComplexTypes extends App {
   val differentFormatMovies = moviesWithRelease
     .select("*")
     .where($"release".isNull)
-//  differentFormatMovies.show()
-//  println(s"Total Bad Dates: ${differentFormatMovies.count()}")
+  //  differentFormatMovies.show()
+  //  println(s"Total Bad Dates: ${differentFormatMovies.count()}")
+
+
+  /**
+   * Structures
+   */
+
+  val structMovies = moviesDF
+    .select(
+      $"Title",
+      struct($"US_Gross", $"Worldwide_Gross")
+        .as("profit")
+    )
+  //  structMovies.show()
+
+  structMovies
+    .select(
+      $"Title",
+      $"profit"
+        .getField("US_Gross")
+        .as("us_gross")
+    )
+  //    .show()
+
+
+  moviesDF
+    .select(
+      col("Title"),
+      struct(col("US_Gross"), col("Worldwide_Gross"))
+        .as("profit")
+    )
+    .select(
+      col("Title"),
+      col("profit")
+        .getField("US_Gross")
+        .as("us_gross")
+    )
+  //    .show()
+
+  moviesDF
+    .selectExpr(
+      "Title",
+      "(US_Gross, Worldwide_Gross) as profit"
+    )
+    .selectExpr(
+      "Title",
+      "profit.US_Gross as us_gross"
+    )
+  //    .show()
+
+
+  /**
+   * Arrays
+   */
+
+
+  val splitMovieTitles = moviesDF
+    .select(
+      $"Title",
+      split($"Title",
+        // RegEx
+        " |,")
+        .as("title_words")
+    )
+  //  splitMovieTitles.show()
+
+
+  splitMovieTitles
+    .select(
+      $"Title",
+      expr("title_words[0]"),
+      size($"title_words"),
+      array_contains($"title_words", "Love")
+    )
+  //    .show()
 
 
 }
