@@ -1,6 +1,6 @@
 -- Lesson 4.1
 
--- Connect and run Spark SQL
+-- Connect and run Spark SQL shell:
 -- $ docker exec -it spark-cluster-spark-master-1 bash
 -- $ cd spark/
 -- $ ./bin/spark-sql
@@ -10,6 +10,7 @@ show databases;
 create database rtjvm;
 show databases;
 use rtjvm;
+SHOW TABLES;
 
 
 -- Create a managed table

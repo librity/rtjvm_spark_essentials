@@ -40,7 +40,7 @@ Start a Spark cluster with 1 worker:
 $ docker compose up --scale spark-worker=1
 ```
 
-Connect to the master node and run the Spark SQL console:
+Connect to the master node and run the Spark SQL shell:
 
 ```bash
 $ docker exec -it spark-cluster-spark-master-1 bash

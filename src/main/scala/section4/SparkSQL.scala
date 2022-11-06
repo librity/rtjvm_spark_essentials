@@ -85,10 +85,10 @@ object SparkSQL extends App {
   //    "titles",
   //  ))
 
-  /**
-   * Read Data Frame from a Spark Table/Warehouse
-   */
 
+  /**
+   * Read Data Frame from a Loaded Table
+   */
 
   employees.createOrReplaceTempView("employees")
   val employeesV2 = spark.read.table("employees")
