@@ -1,6 +1,6 @@
 package section5
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{SaveMode, SparkSession}
 
 import scala.io.Source
 
@@ -122,10 +122,91 @@ object RDDs extends App {
    * - Spark planning/optimization before running code
    */
 
+  /**
+   * Transformations
+   */
 
   /**
+   * Counting
    *
+   * .filter() is lazy
+   * .count() is eager
    */
+
+  val msRDD = stocksRDD
+    .filter(_.symbol == "MSFT")
+  val msCount = msRDD
+    .count()
+  //  println(s"Microsoft Count: $msCount")
+
+
+  /**
+   * .distinct() is lazy
+   */
+
+  val companyNamesRDD = stocksRDD
+    .map(_.symbol)
+    .distinct()
+  //    .foreach(println(_))
+
+
+  /**
+   * Min and Max
+   *
+   * Both are actions since they reduce the RDD to a single value.
+   */
+
+  implicit val stockOrdering: Ordering[StockValue] =
+    Ordering.fromLessThan[StockValue](
+      (left: StockValue, right: StockValue) => left.price < right.price)
+  //  println(s"Microsoft Min and Max: ${msRDD.min().price}, ${msRDD.max().price}")
+
+
+  /**
+   * Reduce
+   */
+
+  //  println(s"Numbers Sum: ${numbersRDD.reduce(_ + _)}")
+
+
+  /**
+   * Grouping
+   *
+   * Very expensive for Data Frames, Sets and RDDs
+   */
+
+  val groupedStocksRDD = stocksRDD
+    .groupBy(_.symbol)
+  //  groupedStocksRDD.foreach(println(_))
+
+
+  /**
+   * Repartitioning
+   *
+   * Involves Shuffling, Very Expensive.
+   * Best practice: repartition before processing, as EARLY as possible.
+   * Optimal size of a partition should be between 10-100MB in size.
+   */
+
+  val repartitionedRDD = stocksRDD.repartition(30)
+
+  // Will create 30 partition parquets.
+  //  repartitionedRDD.toDF().write
+  //    .mode(SaveMode.Overwrite)
+  //    .parquet("src/main/resources/data/stocks30")
+
+
+  /**
+   * Coalesce
+   *
+   * Reduces the number of partitions.
+   * Does not necessarily involve shuffling.
+   */
+
+  val coalescedRDD = repartitionedRDD.coalesce(15)
+  coalescedRDD.toDF().write
+    .mode(SaveMode.Overwrite)
+    .parquet("src/main/resources/data/stocks15")
 
 
 }
