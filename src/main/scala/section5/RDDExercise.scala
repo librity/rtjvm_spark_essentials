@@ -35,68 +35,82 @@ object RDDExercise extends App {
     .withColumnRenamed("Title", "title")
     .withColumnRenamed("Major_Genre", "genre")
     .withColumnRenamed("IMDB_Rating", "rating")
+    .where(
+      $"title".isNotNull
+        and $"genre".isNotNull
+        and $"rating".isNotNull)
     .select("title", "genre", "rating")
 
-  case class Movie(title: String, genre: Option[String], rating: Option[Double])
+  case class Movie(title: String, genre: String, rating: Double)
 
   val moviesDS = cleanMovies.as[Movie]
   val moviesRDD = moviesDS.rdd
 
-  //  println(s"DF count: ${moviesDF.count()}")
-  //  println(s"DS count: ${moviesDS.count()}")
-  //  println(s"RDD count: ${moviesRDD.count()}")
+  println(s"DF count: ${cleanMovies.count()}")
+  println(s"DS count: ${moviesDS.count()}")
+  println(s"RDD count: ${moviesRDD.count()}")
 
   /**
    * 2. Show the distinct genres as an RDD
    */
 
   moviesRDD
-    .filter(_.genre.isDefined)
     .map(_.genre)
     .distinct()
-  //    .foreach(println(_))
+    //    .foreach(println(_))
+    .toDF().show()
 
   /**
    * 3. Select all the movies in the Drama genre with IMDB rating > 6.0
    */
 
 
-  val dramaDFCount = moviesDF
-    .where("Major_Genre = 'Drama'")
-    .count()
+  val dramaDF = moviesDF
+    .where("Major_Genre = 'Drama' AND IMDB_Rating > 6.0")
 
 
-  val dramaRDDCount = moviesRDD
-    .filter(_.genre == Some("Drama"))
-    .count()
+  val dramaRDD = moviesRDD
+    .filter(movie =>
+      movie.genre == "Drama"
+        && movie.rating > 6.0
+    )
 
-  //  println(s"Drama DF count: $dramaDFCount")
-  //  println(s"Drama RDD count: $dramaRDDCount")
+  dramaDF.show()
+  println(s"Drama DF count: ${dramaDF.count()}")
+  dramaRDD.toDF().show()
+  println(s"Drama RDD count: ${dramaRDD.count()}")
 
 
   /**
    * 4. Show the average rating of movies by genre.
    */
 
-  moviesDF
-    .where(col("Major_Genre").isNotNull)
-    .groupBy("Major_Genre")
-    .agg(avg("IMDB_Rating"))
+  cleanMovies
+    .groupBy("genre")
+    .agg(avg("rating"))
     .show()
 
 
+  moviesRDD
+    .groupBy(_.genre)
+    .map(tuple => (tuple._1, tuple._2.map(row => row.rating)))
+    .foreach(tuple => println(
+      s"${tuple._1}: ${calcAverage(tuple._2)}"
+    ))
+
   def calcAverage(list: Iterable[Double]) = list.sum / list.size.toDouble
 
+  /**
+   * Daniel's Solution
+   */
+
+  case class AverageRating(genre: String, rating: Double)
+
   moviesRDD
-    .filter(movie => movie.genre.isDefined && movie.rating.isDefined)
     .groupBy(_.genre)
-    .map(group => (
-      group._1.getOrElse("Unknown"),
-      group._2.map(row => row.rating.getOrElse(0.0))
-    ))
-    .foreach(group => println(
-      s"${group._1} average rating: ${calcAverage(group._2)}"
-    ))
-
-
+    .map {
+      case (genre, movies) => AverageRating(genre,
+        movies.map(_.rating).sum / movies.size)
+    }
+    .toDF().show()
 }
