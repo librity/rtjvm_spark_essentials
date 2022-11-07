@@ -77,32 +77,32 @@ object SparkSQLExercise extends App {
       |   FROM employees emp
       |   ORDER BY emp.hire_date DESC;
     """.stripMargin)
-  //    .show()
+  //      .show()
 
   val targetEmployees = spark.sql(
     """
       |SELECT *
-      |   FROM employees emp
+      |   FROM employees
       |   WHERE
-      |     emp.hire_date >= date('1999-01-01')
-      |     AND emp.hire_date <= date('2001-01-01')
-      |   ORDER BY emp.hire_date DESC;
+      |     hire_date > '1999-01-01'
+      |     AND hire_date < '2000-01-01'
+      |   ORDER BY hire_date DESC;
     """.stripMargin)
-  //    targetEmployees.show()
   targetEmployees.createOrReplaceTempView("target_employees")
+  //      targetEmployees.show()
 
   spark.sql(
     """
       |SELECT count(*)
       |   FROM target_employees
     """.stripMargin)
-  //    .show()
+  //      .show()
 
   val employeeDFCount = employees
-    .where(col("hire_date") >= Date.valueOf("1999-01-01"))
-    .where(col("hire_date") <= Date.valueOf("2001-01-01"))
+    .where(col("hire_date") > Date.valueOf("1999-01-01"))
+    .where(col("hire_date") < Date.valueOf("2000-01-01"))
     .count()
-  //  println(s"Employee Data Frame Count: $employeeDFCount")
+  //    println(s"Employee Data Frame Count: $employeeDFCount")
 
 
   /**
@@ -126,6 +126,24 @@ object SparkSQLExercise extends App {
   //  targetDepartments.show()
 
   /**
+   * Daniel's Solution
+   */
+
+  spark.sql(
+    """
+      |SELECT dep.dept_no, avg(sal.salary) AS avg_salary
+      |    FROM employees emp, salaries sal, dept_emp dep
+      |    WHERE
+      |        emp.hire_date > '1999-01-01' AND emp.hire_date < '2000-01-01'
+      |        AND emp.emp_no = sal.emp_no
+      |        AND emp.emp_no = dep.emp_no
+      |    GROUP BY dep.dept_no
+      |    ORDER BY dep.dept_no
+    """.stripMargin)
+  //    .show()
+
+
+  /**
    * 4. Show the name of the best-paying department for employees hired between those dates
    */
 
@@ -137,7 +155,37 @@ object SparkSQLExercise extends App {
       |        ON tdep.dept_no = dep.dept_no
       |    ORDER BY avg_salary DESC
     """.stripMargin)
-    .show()
+  //    .show()
+
+
+  /**
+   * Daniel's Solution
+   */
+
+  spark.sql(
+    """
+      |SELECT
+      |    dep.dept_name,
+      |    avg(sal.salary) AS avg_salary
+      |FROM
+      |    employees emp,
+      |    salaries sal,
+      |    dept_emp,
+      |    departments dep
+      |WHERE
+      |    emp.hire_date > '1999-01-01' AND emp.hire_date < '2000-01-01'
+      |    AND emp.emp_no = sal.emp_no
+      |    AND emp.emp_no = dept_emp.emp_no
+      |    AND dept_emp.dept_no = dep.dept_no
+      |GROUP BY
+      |    dep.dept_name
+      |ORDER BY
+      |    avg_salary DESC
+      |LIMIT
+      |    1
+      """.stripMargin)
+  //    .show()
+
 
   def getTable(name: String): DataFrame = {
     val postgresConfig = Map(
