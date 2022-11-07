@@ -200,7 +200,7 @@ object RDD extends App {
    * Coalesce
    *
    * Reduces the number of partitions.
-   * Does not necessarily involve shuffling.
+   * Does some shuffling but not a full shuffle like repartition.
    */
 
   val coalescedRDD = repartitionedRDD.coalesce(15)

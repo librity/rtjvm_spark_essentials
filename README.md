@@ -47,3 +47,24 @@ $ docker exec -it spark-cluster-spark-master-1 bash
 $ cd spark/
 $ ./bin/spark-sql
 ```
+
+Or a run a Spark shell:
+
+```bash
+$ ./bin/spark-shell
+```
+
+This starts a web view listening on [localhost:4040](http://localhost:4040)
+
+Among other tools, we can also run Spark on R and Python environments:
+
+```bash
+$ ./spark/bin/sparkR
+$ ./spark/bin/pyspark
+$ ./spark/bin/spark-submit
+$ ./spark/bin/beeline
+$ ./spark/bin/find-spark-home
+$ ./spark/bin/spark-class
+$ ./spark/bin/spark-class2.cmd
+$ ./spark/bin/run-example
+```
