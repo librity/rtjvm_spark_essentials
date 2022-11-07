@@ -4,7 +4,7 @@ import org.apache.spark.sql.{SaveMode, SparkSession}
 
 import scala.io.Source
 
-object RDDs extends App {
+object RDD extends App {
   /**
    * Boilerplate
    */
