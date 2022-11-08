@@ -1,6 +1,6 @@
 # Rock The JVM - Apache Spark Essentials
 
-A complete introduction to Spark's core APIs with Scala.
+Master Spark's core APIs with Scala.
 
 - https://rockthejvm.com/p/spark-essentials
 - https://github.com/rockthejvm/spark-essentials
@@ -71,6 +71,8 @@ $ ./bin/spark-shell
 ```
 
 This starts a web view listening on [localhost:4040](http://localhost:4040)
+
+![Certificate of Completion](.github/dashboard.png)
 
 Among other tools, we can also run Spark with R and Python environments:
 

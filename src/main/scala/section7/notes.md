@@ -2,14 +2,13 @@
 
 ## Big Data Set
 
-New York City taxi data:
-35 GB as `.parquet`, 400 GB as uncompressed `.csv`
+New York City taxi ride data from 2009 to 2016: 35 GB as `.parquet`, 400 GB as uncompressed `.csv`
 
 - https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
-- https://academictorrents.com/details/4f465810b86c6b793d1c7556fe3936441081992e
 
 Download with Transmission:
 
+- https://academictorrents.com/details/4f465810b86c6b793d1c7556fe3936441081992e
 - https://transmissionbt.com/download#unixdistros
 
 Smaller Data Set at `src/main/resources/data/yellow_taxi_jan_25_2018`
@@ -18,6 +17,38 @@ Also download the taxi zone lookup table:
 - https://d37ci6vzurychx.cloudfront.net/misc/taxi+_zone_lookup.csv
 
 ### Format
+
+`nyc_taxi_2009_2016.parquet`:
+
+```elixir
+root
+ |-- dropoff_datetime: timestamp (nullable = true)
+ |-- dropoff_latitude: float (nullable = true)
+ |-- dropoff_longitude: float (nullable = true)
+ |-- dropoff_taxizone_id: integer (nullable = true)
+ |-- ehail_fee: float (nullable = true)
+ |-- extra: float (nullable = true)
+ |-- fare_amount: float (nullable = true)
+ |-- improvement_surcharge: float (nullable = true)
+ |-- mta_tax: float (nullable = true)
+ |-- passenger_count: integer (nullable = true)
+ |-- payment_type: string (nullable = true)
+ |-- pickup_datetime: timestamp (nullable = true)
+ |-- pickup_latitude: float (nullable = true)
+ |-- pickup_longitude: float (nullable = true)
+ |-- pickup_taxizone_id: integer (nullable = true)
+ |-- rate_code_id: integer (nullable = true)
+ |-- store_and_fwd_flag: string (nullable = true)
+ |-- tip_amount: float (nullable = true)
+ |-- tolls_amount: float (nullable = true)
+ |-- total_amount: float (nullable = true)
+ |-- trip_distance: float (nullable = true)
+ |-- trip_type: string (nullable = true)
+ |-- vendor_id: string (nullable = true)
+ |-- trip_id: long (nullable = true)
+ 
+ Size: 1,382,375,998!
+```
 
 `yellow_taxi_jan_25_2018`:
 
@@ -41,7 +72,7 @@ root
  |-- improvement_surcharge: double (nullable = true)
  |-- total_amount: double (nullable = true)
 
-Size: 331893
+Size: 331,893
 ```
 
 `taxi_zones.csv`:
@@ -71,7 +102,7 @@ Size: 265
 
 - https://sparkbyexamples.com/spark/spark-extract-hour-minute-and-second-from-timestamp/
 
-## Run on AWS
+## Run on AWS with `S3` and `EMR`
 
 1. Save data and `spark-essentials.jar` in an S3 bucket
 2. Create a Spark EMR (Elastic Map Reduce) cluster
@@ -99,4 +130,12 @@ $ spark-submit \
 6. Wait for it to finish
 7. Terminate the cluster so you don't end up bankrupt
 
-## Run on Azure
+## Run on Azure with `Blob storage` and `HDInsight`
+
+- https://learn.microsoft.com/en-us/azure/architecture/aws-professional/storage
+- https://learn.microsoft.com/en-us/azure/architecture/aws-professional/services
+- https://stackoverflow.com/questions/67395418/azure-equivalent-of-aws-athena-over-s3
+- https://azure.microsoft.com/en-us/products/storage/blobs/
+- https://azure.microsoft.com/en-us/products/hdinsight/#overview
+- https://learn.microsoft.com/en-us/azure/?product=popular
+- https://learn.microsoft.com/en-us/azure/hdinsight/hdinsight-hadoop-use-blob-storage
