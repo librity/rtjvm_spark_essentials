@@ -1,9 +1,9 @@
 package section7
 
-import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{Column, DataFrame, SparkSession}
+import org.apache.spark.sql.functions._
 
-object TaxiBigData extends App {
+object Taxi extends App {
   /**
    * Boilerplate
    */
@@ -22,7 +22,7 @@ object TaxiBigData extends App {
    * Load Data Sets
    */
 
-  val bigTaxiDF = spark.read.load("path/to/taxi/big/data")
+  val taxiDF = spark.read.load("src/main/resources/data/yellow_taxi_jan_25_2018")
   val taxiZonesDF = spark.read
     .option("header", "true")
     .option("inferSchema", "true")
