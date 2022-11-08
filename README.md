@@ -6,6 +6,10 @@ A complete introduction to Spark's core APIs with Scala.
 - https://github.com/rockthejvm/spark-essentials
 - https://github.com/rockthejvm/spark-essentials/releases/tag/start
 
+## Certificate
+
+![Certificate of Completion](.github/certificate.png)
+
 ## Sections
 
 1. [Scala Recap](src/main/scala/section1)

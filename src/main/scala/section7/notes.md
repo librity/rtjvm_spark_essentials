@@ -70,3 +70,33 @@ Size: 265
 ## Spark
 
 - https://sparkbyexamples.com/spark/spark-extract-hour-minute-and-second-from-timestamp/
+
+## Run on AWS
+
+1. Save data and `spark-essentials.jar` in an S3 bucket
+2. Create a Spark EMR (Elastic Map Reduce) cluster
+3. Connect to cluster with`ssh`
+4. Get `spark-essentials.jar` from S3
+
+```bash
+$ aws s3 cp s3://BUCKET_NAME/spark-essentials.jar .
+```
+
+5. Submit the job:
+
+```bash
+$ which spark-submit
+$ spark-submit \
+  --class section7.TaxiBigData \
+  --supervise \
+  --verbose \
+  spark-essentials.jar \
+  s3://BUCKET_NAME/nyc_taxi_2009_2016.parquet \
+  s3://BUCKET_NAME/taxi_zones.csv \
+  s3://BUCKET_NAME/taxi_big_data_results
+```
+
+6. Wait for it to finish
+7. Terminate the cluster so you don't end up bankrupt
+
+## Run on Azure
