@@ -66,3 +66,7 @@ Size: 265
 6. How are people paying for the ride, on long/short trips?
 7. How is the payment type evolving with time?
 8. Can we explore a ride-sharing opportunity by grouping close short trips?
+
+## Spark
+
+- https://sparkbyexamples.com/spark/spark-extract-hour-minute-and-second-from-timestamp/
