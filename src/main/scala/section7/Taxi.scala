@@ -342,8 +342,23 @@ object Taxi extends App {
     .select(sum("total_impact").as("total"))
 
 
-  rideSharingImpact.show(100, true)
-  totalProfitFromRideSharing.show()
+  //  rideSharingImpact.show(100, true)
+  //  totalProfitFromRideSharing.show()
+
+  /**
+   * Count rides to supplement TaxiBigData:
+   *
+   * 289623 of 331893 rides have less than 3 passengers: 87.2%
+   */
+
+  val passengerCount = taxiDF
+    .where($"passenger_count" < 3)
+    .select(count("*"))
+
+  taxiDF
+    .select(count("*"))
+    .show()
+  passengerCount.show()
 
 
   def inspectDF(dataFrame: DataFrame): Unit = {

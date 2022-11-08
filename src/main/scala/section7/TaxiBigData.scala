@@ -20,9 +20,12 @@ object TaxiBigData extends App {
 
   /**
    * Load Data Sets
+   *
+   * We can track keep track of the jobs' progress at:
+   * http://localhost:4040
    */
 
-  val bigTaxiDF = spark.read.load("path/to/taxi/big/data")
+  val taxiDF = spark.read.load("path/to/taxi/big/data")
   val taxiZonesDF = spark.read
     .option("header", "true")
     .option("inferSchema", "true")
@@ -257,6 +260,7 @@ object TaxiBigData extends App {
    * Proposal:
    * - Offer ride sharing and encourage it with discount.
    */
+  val percentSharable = 0.872
 
 
   val sharableRides = taxiDF
@@ -269,13 +273,11 @@ object TaxiBigData extends App {
       $"PULocationID",
       $"total_amount",
     )
-    // Remove rides with more than one passenger
-    .where($"passenger_count" < 3)
 
     // Group by time time window and location, then count and add
     .groupBy($"five_minute_id", $"PULocationID")
     .agg(
-      count("*").as("total_trips"),
+      (count("*") * percentSharable).as("total_trips"),
       sum("total_amount").as("revenue"),
     )
 

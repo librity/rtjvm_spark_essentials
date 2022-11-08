@@ -1,8 +1,20 @@
 # Rock The JVM - Apache Spark Essentials
 
+A complete introduction to Spark's core APIs with Scala.
+
 - https://rockthejvm.com/p/spark-essentials
 - https://github.com/rockthejvm/spark-essentials
 - https://github.com/rockthejvm/spark-essentials/releases/tag/start
+
+## Sections
+
+1. [Scala Recap](src/main/scala/section1)
+2. [DataFrames](src/main/scala/section2)
+3. [Types and Datasets](src/main/scala/section3)
+4. [Spark SQL](src/main/scala/section4)
+5. [Low-Level API and RDDs](src/main/scala/section5)
+6. [Clusters](src/main/scala/section6)
+7. [Big Data](src/main/scala/section7)
 
 ## IntelliJ IDEA
 
@@ -56,15 +68,15 @@ $ ./bin/spark-shell
 
 This starts a web view listening on [localhost:4040](http://localhost:4040)
 
-Among other tools, we can also run Spark on R and Python environments:
+Among other tools, we can also run Spark with R and Python environments:
 
 ```bash
-$ ./spark/bin/sparkR
-$ ./spark/bin/pyspark
-$ ./spark/bin/spark-submit
-$ ./spark/bin/beeline
-$ ./spark/bin/find-spark-home
-$ ./spark/bin/spark-class
-$ ./spark/bin/spark-class2.cmd
-$ ./spark/bin/run-example
+$ /spark/bin/sparkR
+$ /spark/bin/pyspark
+$ /spark/bin/spark-submit
+$ /spark/bin/beeline
+$ /spark/bin/find-spark-home
+$ /spark/bin/spark-class
+$ /spark/bin/spark-class2.cmd
+$ /spark/bin/run-example
 ```
